@@ -1,16 +1,9 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Event Planner</title>
-</head>
-<body>
-    <h1>Welcome to the Event Planner!</h1>
-    
-    {% if user.is_authenticated %}
-        <p>Hello, {{ user.username }}! You are logged in.</p>
-        <a href="{% url 'logout' %}">Logout</a>
-    {% else %}
-        <p>Please <a href="{% url 'register' %}">Sign Up</a> or <a href="{% url 'login' %}">Login</a>.</p>
-    {% endif %}
-</body>
-</html>
+<h1>Welcome to the Event Planner!</h1>
+
+{% if user.is_authenticated %}
+    <p>Hello, {{ user.username }}! You are logged in.</p>
+    <a href="{% url 'logout' %}">Logout</a> |
+    <a href="{% url 'event_list' %}">View My Events</a>
+{% else %}
+    <p>Please <a href="{% url 'register' %}">Sign Up</a> or <a href="{% url 'login' %}">Login</a>.</p>
+{% endif %}

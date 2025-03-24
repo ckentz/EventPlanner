@@ -1,0 +1,9 @@
+<h2>Edit Event: {{ event.title }}</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save Changes</button>
+</form>
+
+<a href="{% url 'event_list' %}">← Back to Event List</a>
