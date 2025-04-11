@@ -1,13 +1,25 @@
 <h2>Your Events</h2>
 
+{% if messages %}
+  <ul class="messages">
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
 {% if events %}
     <ul>
         {% for event in events %}
-            <li>
-                <strong>{{ event.title }}</strong> <br>
-                {{ event.description }} <br>
-                📍 {{ event.location }} | 🕒 {{ event.date }}
-                <a href="{% url 'edit_event' event.id %}">✏️ Edit</a>
+            <li style="margin-bottom: 1em;">
+                <a href="{% url 'event_detail' event.id %}">
+                    <strong>{{ event.title }}</strong>
+                </a><br>
+                {{ event.description }}<br>
+                📍 {{ event.location }} | 🕒 {{ event.date }}<br>
+                👥 {{ event.rsvp_set.count }} attending<br>
+
+                <a href="{% url 'edit_event' event.id %}">✏️ Edit</a> |
                 <a href="{% url 'delete_event' event.id %}">🗑️ Delete</a>
             </li>
         {% endfor %}
@@ -16,5 +28,8 @@
     <p>You haven't created any events yet.</p>
 {% endif %}
 
-<a href="{% url 'create_event' %}">+ Create New Event</a>
+<hr>
+
+<a href="{% url 'create_event' %}">+ Create New Event</a><br>
+<a href="{% url 'browse_events' %}">🌍 Browse Events</a><br>
 <a href="{% url 'home' %}">🏠 Back to Home</a>

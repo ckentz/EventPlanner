@@ -1,0 +1,34 @@
+<h2>{{ event.title }}</h2>
+<p><strong>Description:</strong> {{ event.description }}</p>
+<p><strong>Date:</strong> {{ event.date }}</p>
+<p><strong>Location:</strong> {{ event.location }}</p>
+<p><strong>Organizer:</strong> {{ event.organizer }}</p>
+
+<hr>
+<h3>Attendees ({{ attendees.count }})</h3>
+<ul>
+    {% for rsvp in attendees %}
+        <li>{{ rsvp.user.username }}</li>
+    {% empty %}
+        <li>No one has RSVP'd yet.</li>
+    {% endfor %}
+</ul>
+
+{% if is_attending %}
+    <p style="color: green;"><strong>You are attending this event.</strong></p>
+{% endif %}
+
+{% if user != event.organizer %}
+<form method="POST">
+    {% csrf_token %}
+    {% if is_attending %}
+        <button type="submit">Cancel RSVP</button>
+    {% else %}
+        <button type="submit">RSVP to this Event</button>
+    {% endif %}
+</form>
+{% else %}
+<p><em>You are the organizer of this event.</em></p>
+{% endif %}
+
+<a href="{% url 'event_list' %}">← Back to Event List</a>
