@@ -1,19 +1,41 @@
-<h2>Browse All Events</h2>
+{% extends 'base.html' %}
+{% block title %}Your Page Title{% endblock %}
+{% block content %}
 
 {% if events %}
-    <ul>
-        {% for event in events %}
-            <li>
-                <a href="{% url 'event_detail' event.id %}"><strong>{{ event.title }}</strong></a><br>
-                {{ event.date }} | {{ event.location }}<br>
-                <em>by {{ event.organizer.username }}</em>
-            </li>
-        {% endfor %}
-    </ul>
+<div class="row row-cols-1 row-cols-md-2 g-4">
+    {% for event in events %}
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <a href="{% url 'event_detail' event.id %}">{{ event.title }}</a>
+                </h5>
+                <p class="card-text">
+                    {{ event.description }}<br>
+                    📍 {{ event.location }}<br>
+                    🕒 {{ event.date|date:"F j, Y \\a\\t g:i A" }}<br>
+                    👥 {{ event.rsvp_set.count }} attending
+                </p>
+            </div>
+            <div class="card-footer text-end">
+                {% if user == event.organizer %}
+                    <a href="{% url 'edit_event' event.id %}" class="btn btn-sm btn-outline-secondary">✏️ Edit</a>
+                    <a href="{% url 'delete_event' event.id %}" class="btn btn-sm btn-outline-danger">🗑️ Delete</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
 {% else %}
     <p>No events to display.</p>
 {% endif %}
 
-<a href="{% url 'event_list' %}">My Events</a> |
-<a href="{% url 'create_event' %}">+ Create New Event</a> |
-<a href="{% url 'home' %}">🏠 Home</a>
+<div class="mt-4">
+    <a href="{% url 'event_list' %}" class="btn btn-outline-primary">📋 My Events</a>
+    <a href="{% url 'create_event' %}" class="btn btn-outline-success">➕ Create New Event</a>
+    <a href="{% url 'home' %}" class="btn btn-outline-secondary">🏠 Home</a>
+</div>
+
+{% endblock %}

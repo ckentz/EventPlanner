@@ -1,12 +1,19 @@
-<h1>Welcome to the Event Planner!</h1>
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+
+<h1 class="mb-4">Welcome to the Event Planner App 🎉</h1>
 
 {% if user.is_authenticated %}
-    <p>Hello, {{ user.username }}! You are logged in.</p>
-    <a href="{% url 'logout' %}">Logout</a> |
-    <a href="{% url 'event_list' %}">View My Events</a>
-    <a href="{% url 'browse_events' %}">🌍 Browse All Events</a> |
-    <a href="{% url 'event_list' %}">My Events</a> |
-    <a href="{% url 'logout' %}">Logout</a>
+    <p>Hello, <strong>{{ user.username }}</strong>! You are logged in.</p>
+    <p>
+        <a href="{% url 'browse_events' %}" class="btn btn-outline-primary">🌍 Browse Events</a>
+        <a href="{% url 'event_list' %}" class="btn btn-outline-secondary">📋 My Events</a>
+    </p>
 {% else %}
-    <p>Please <a href="{% url 'register' %}">Sign Up</a> or <a href="{% url 'login' %}">Login</a>.</p>
+    <p>Please log in or sign up to view and manage events.</p>
+    <a href="{% url 'login' %}" class="btn btn-primary">🔐 Login</a>
+    <a href="{% url 'register' %}" class="btn btn-secondary">📝 Sign Up</a>
 {% endif %}
+
+{% endblock %}

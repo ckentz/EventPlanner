@@ -1,35 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}My Events{% endblock %}
+{% block content %}
+
 <h2>Your Events</h2>
 
-{% if messages %}
-  <ul class="messages">
-    {% for message in messages %}
-      <li>{{ message }}</li>
-    {% endfor %}
-  </ul>
-{% endif %}
-
 {% if events %}
-    <ul>
-        {% for event in events %}
-            <li style="margin-bottom: 1em;">
-                <a href="{% url 'event_detail' event.id %}">
-                    <strong>{{ event.title }}</strong>
-                </a><br>
-                {{ event.description }}<br>
-                📍 {{ event.location }} | 🕒 {{ event.date }}<br>
-                👥 {{ event.rsvp_set.count }} attending<br>
-
-                <a href="{% url 'edit_event' event.id %}">✏️ Edit</a> |
-                <a href="{% url 'delete_event' event.id %}">🗑️ Delete</a>
-            </li>
-        {% endfor %}
-    </ul>
+<div class="row row-cols-1 row-cols-md-2 g-4">
+    {% for event in events %}
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body">
+                <h5 class="card-title">
+                    <a href="{% url 'event_detail' event.id %}">{{ event.title }}</a>
+                </h5>
+                <p class="card-text">
+                    {{ event.description }}<br>
+                    📍 {{ event.location }}<br>
+                    🕒 {{ event.date|date:"F j, Y \\a\\t g:i A" }}<br>
+                    👥 {{ event.rsvp_set.count }} attending
+                </p>
+            </div>
+            <div class="card-footer text-end">
+                {% if user == event.organizer %}
+                    <a href="{% url 'edit_event' event.id %}" class="btn btn-sm btn-outline-secondary">✏️ Edit</a>
+                    <a href="{% url 'delete_event' event.id %}" class="btn btn-sm btn-outline-danger">🗑️ Delete</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
 {% else %}
     <p>You haven't created any events yet.</p>
 {% endif %}
 
 <hr>
 
-<a href="{% url 'create_event' %}">+ Create New Event</a><br>
-<a href="{% url 'browse_events' %}">🌍 Browse Events</a><br>
-<a href="{% url 'home' %}">🏠 Back to Home</a>
+<div class="mt-3">
+    <a href="{% url 'create_event' %}" class="btn btn-outline-success">➕ Create New Event</a>
+    <a href="{% url 'browse_events' %}" class="btn btn-outline-primary">🌍 Browse Events</a>
+    <a href="{% url 'home' %}" class="btn btn-outline-secondary">🏠 Back to Home</a>
+</div>
+
+{% endblock %}

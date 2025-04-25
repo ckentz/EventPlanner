@@ -60,7 +60,7 @@ def event_detail(request, event_id):
     if request.method == 'POST':
         if is_attending:
             RSVP.objects.filter(user=request.user, event=event).delete()
-            messages.success(request, "You have canceled your RSVP.")
+            messages.warning(request, "You have canceled your RSVP.")
         else:
             RSVP.objects.create(user=request.user, event=event)
             messages.success(request, "You have RSVP'd to this event.")
