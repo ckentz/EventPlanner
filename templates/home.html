@@ -2,18 +2,21 @@
 {% block title %}Home{% endblock %}
 {% block content %}
 
-<h1 class="mb-4">Welcome to the Event Planner App 🎉</h1>
+<div class="p-5 mb-4 bg-light rounded-3 shadow-sm">
+  <div class="container-fluid py-5">
+    <h1 class="display-4 fw-bold text-primary">🎟️ Welcome to Event Planner!</h1>
+    <p class="col-md-8 fs-5">Plan your events, manage attendees, and RSVP easily — all in one place.</p>
 
-{% if user.is_authenticated %}
-    <p>Hello, <strong>{{ user.username }}</strong>! You are logged in.</p>
-    <p>
-        <a href="{% url 'browse_events' %}" class="btn btn-outline-primary">🌍 Browse Events</a>
-        <a href="{% url 'event_list' %}" class="btn btn-outline-secondary">📋 My Events</a>
-    </p>
-{% else %}
-    <p>Please log in or sign up to view and manage events.</p>
-    <a href="{% url 'login' %}" class="btn btn-primary">🔐 Login</a>
-    <a href="{% url 'register' %}" class="btn btn-secondary">📝 Sign Up</a>
-{% endif %}
+    {% if user.is_authenticated %}
+        <p class="lead">Hello, <strong>{{ user.username }}</strong>! You are logged in.</p>
+        <a href="{% url 'browse_events' %}" class="btn btn-primary btn-lg me-2">🌍 Browse Events</a>
+        <a href="{% url 'event_list' %}" class="btn btn-outline-secondary btn-lg">📋 My Events</a>
+    {% else %}
+        <p class="lead">Please log in or sign up to start managing events.</p>
+        <a href="{% url 'login' %}" class="btn btn-primary btn-lg me-2">🔐 Login</a>
+        <a href="{% url 'register' %}" class="btn btn-secondary btn-lg">📝 Sign Up</a>
+    {% endif %}
+  </div>
+</div>
 
 {% endblock %}
